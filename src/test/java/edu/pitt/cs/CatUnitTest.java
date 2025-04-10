@@ -1,13 +1,14 @@
 package edu.pitt.cs;
 
 import org.junit.After;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
+import static org.junit.Assert.*;
+
+import org.mockito.Mockito;
+import static org.mockito.Mockito.*;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CatUnitTest {
@@ -24,19 +25,24 @@ public class CatUnitTest {
 
 	@Before
 	public void setUp() throws Exception {
+		// INITIALIZE THE TEST FIXTURE
+
+		// Create a Cat with ID 1 and name "Jennyanydots", assign to c using a call to Cat.createInstance(InstanceType, int, String).
+		// Passing InstanceType.IMPL as the first parameter will create a real cat using your CatImpl implementation.
+		// Passing InstanceType.MOCK as the first parameter will create a mock cat using Mockito.
+		// Which type is the correct choice for this unit test?  I'll leave it up to you.  The answer is in the Unit Testing Part 2 lecture. :)
+		// [x] TODO: Fill in
 		c = Cat.createInstance(InstanceType.IMPL, 1, "Jennyanydots");
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		// Not necessary strictly speaking since the references will be overwritten in
-		// the next setUp call anyway and Java has automatic garbage collection.
 		c = null;
 	}
 
 	/**
 	 * Test case for int getId().
-	 * 
+	 *
 	 * <pre>
 	 * Preconditions: c has been created with ID 1, and name "Jennyanydots".
 	 * Execution steps: Call c.getId().
@@ -44,15 +50,14 @@ public class CatUnitTest {
 	 * </pre>
 	 */
 	@Test
-	public void testGetId() 
-	{
-		int id = c.getId();
-		assertEquals(1, id);
+	public void testGetId() {
+		// [x] TODO: Fill in
+		assertEquals(1, c.getId());
 	}
 
 	/**
 	 * Test case for int getName().
-	 * 
+	 *
 	 * <pre>
 	 * Preconditions: c has been created with ID 1, and name "Jennyanydots".
 	 * Execution steps: Call c.getName().
@@ -60,15 +65,14 @@ public class CatUnitTest {
 	 * </pre>
 	 */
 	@Test
-	public void testGetName() 
-	{
-    	String name = c.getName();
-   		assertEquals(name, "Jennyanydots");
+	public void testGetName() {
+		// [x] TODO: Fill in
+		assertEquals("Jennyanydots", c.getName());
 	}
 
 	/**
 	 * Test case for int getRented().
-	 * 
+	 *
 	 * <pre>
 	 * Preconditions: c has been created with ID 1, and name "Jennyanydots".
 	 * Execution steps: Call c.getRented().
@@ -76,15 +80,14 @@ public class CatUnitTest {
 	 * </pre>
 	 */
 	@Test
-	public void testGetRented() 
-	{
-		boolean getRented = c.getRented();	
-		assertFalse(getRented);
+	public void testGetRented() {
+		// [x] TODO: Fill in
+		assertFalse(c.getRented());
 	}
 
 	/**
 	 * Test case for int toString().
-	 * 
+	 *
 	 * <pre>
 	 * Preconditions: c has been created with ID 1, and name "Jennyanydots".
 	 * Execution steps: Call c.toString().
@@ -92,16 +95,14 @@ public class CatUnitTest {
 	 * </pre>
 	 */
 	@Test
-	public void testToString() 
-	{
-		String expectedString = "ID 1. Jennyanydots";
-		String testString = c.toString();
-		assertEquals(expectedString, testString);
+	public void testToString() {
+		// [x] TODO: Fill in
+		assertEquals("ID 1. Jennyanydots", c.toString());
 	}
 
 	/**
 	 * Test case for int rentCat().
-	 * 
+	 *
 	 * <pre>
 	 * Preconditions: c has been created with ID 1, and name "Jennyanydots".
 	 * Execution steps: Call c.rentCat().
@@ -110,15 +111,15 @@ public class CatUnitTest {
 	 * </pre>
 	 */
 	@Test
-	public void testRentCat() 
-	{
+	public void testRentCat() {
+		// [x] TODO: Fill in
 		c.rentCat();
 		assertTrue(c.getRented());
 	}
 
 	/**
 	 * Test case for int returnCat().
-	 * 
+	 *
 	 * <pre>
 	 * Preconditions: c has been created with ID 1, and name "Jennyanydots".
 	 *                c has been rented.
@@ -128,15 +129,17 @@ public class CatUnitTest {
 	 * </pre>
 	 */
 	@Test
-	public void testReturnCat() 
-	{
+	public void testReturnCat() {
+		// [x] TODO: Fill in
+		c.rentCat();
+
 		c.returnCat();
 		assertFalse(c.getRented());
 	}
 
 	/**
 	 * Test case for int renameCat().
-	 * 
+	 *
 	 * <pre>
 	 * Preconditions: c has been created with ID 1, and name "Jennyanydots".
 	 * Execution steps: Call c.renameCat("Garfield").
@@ -145,11 +148,10 @@ public class CatUnitTest {
 	 * </pre>
 	 */
 	@Test
-	public void testRenameCat() 
-	{
+	public void testRenameCat() {
+		// [x] TODO: Fill in
 		c.renameCat("Garfield");
 		assertEquals("Garfield", c.getName());
 		assertEquals("ID 1. Garfield", c.toString());
 	}
-
 }

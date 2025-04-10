@@ -12,66 +12,86 @@ public class RentACatImpl implements RentACat {
 	 * passed-in cat id. If the cat with the id exists in the list of cats and has
 	 * been rented out, then this method should return true after calling
 	 * .returnCat() on that cat. Otherwise, the method should return false.
-	 * 
+	 *
 	 * @param id the ID of the cat to rent
 	 * @return true if cat exists and was rented out, false otherwise
 	 */
 
-	 public boolean returnCat(int id) {
-        for (Cat cat : cats) {
-            if (cat.getId() == id && cat.getRented()) 
-			{
-                cat.returnCat();
-                return true;
-            }
-        }
-        return false;
-    }
+	public boolean returnCat(int id) {
+		// TODO: Fill in
+
+		try {
+			cats.get(id-1);
+		}
+		catch(Exception e) {
+			System.out.println("Invalid cat ID.");
+			return false;
+		}
+
+		boolean isRented = cats.get(id-1).getRented();
+		if (!isRented) {
+			System.out.println(cats.get(id-1).getName() + " is already here!");
+			return false;
+		}
+
+		cats.get(id-1).returnCat();
+		System.out.println("Welcome back, " + cats.get(id-1).getName() + "!");
+		return true;
+	}
 
 	/**
 	 * Rent a cat. This should call the .rentCat() method on the cat for the
 	 * passed-in cat id. If the cat with the id exists in the list of cats and has
 	 * *not* been rented out, then this method should return true after calling
 	 * .rentCat() on that cat. Otherwise, the method should return false.
-	 * 
+	 *
 	 * @param id the ID of the cat to rent
 	 * @return true if cat exists and was not rented out, false otherwise
 	 */
 
-	 public boolean rentCat(int id) {
-		for (Cat cat : cats) {
-			if (cat.getId() == id) {
-				if (!cat.getRented()) {
-					cat.rentCat();
-					return true;
-				} else {
-					return false;
-				}
-			}
+	public boolean rentCat(int id) {
+		// TODO: Fill in
+		try {
+			cats.get(id-1);
 		}
-		return false;
+		catch(Exception e) {
+			System.out.println("Invalid cat ID.");
+			return false;
+		}
+
+		boolean isRented = cats.get(id-1).getRented();
+		if (isRented) {
+			System.out.println("Sorry, " + cats.get(id-1).getName() + " is not here!");
+			return false;
+		}
+
+		cats.get(id-1).rentCat();
+		System.out.println(cats.get(id-1).getName() + " has been rented.");
+		return true;
 	}
-	
 
 	/**
 	 * Rename a cat. This calls the .renameCat(String) method on the cat for the
 	 * passed-in cat id, if the cat exists, and then returns true. If the cat does
 	 * not exist, the method returns false.
-	 * 
+	 *
 	 * @param id the ID of the cat to rename
 	 * @return true if cat exists, false otherwise
 	 */
 
-	 public boolean renameCat(int id, String name) 
-	 {
-        for (Cat cat : cats) {
-            if (cat.getId() == id) {
-                cat.renameCat(name);
-                return true;
-            }
-        }
-        return false;
-	 }
+	public boolean renameCat(int id, String name) {
+		// TODO: Fill in
+
+		try {
+			cats.get(id-1).renameCat(name);
+		  }
+		  catch(Exception e) {
+			System.out.println("Invalid cat ID.");
+			return false;
+		  }
+
+		return true;
+	}
 
 	/**
 	 * Create a String list from the list of cats using the .toString() method of
@@ -79,50 +99,53 @@ public class RentACatImpl implements RentACat {
 	 * are available to be rented. These cats should be separated by "\n" characters
 	 * (line feeds). Example: ID 1. Jennyanydots ID 2. Old Deuteronomy ID 3.
 	 * Mistoffelees
-	 * 
+	 *
 	 * @return "\n"-delimited list of rentable cats
 	 */
 
-	 public String listCats() {
-		StringBuilder sb = new StringBuilder();
+	public String listCats() {
+		// TODO: Fill in
+		String returnString = "";
+
 		for (Cat cat : cats) {
 			if (!cat.getRented()) {
-				sb.append(cat.toString()).append("\n");
+				returnString = returnString + ("ID " + cat.getId() + ". " + cat.getName() + "\n");
 			}
 		}
-		return sb.toString();
-	}
-	
 
+		return returnString;
+	}
 
 	/**
 	 * Given an id, return a reference to the specified cat if a cat with that ID
 	 * exists. Return null if no cat of that ID exists in the list.
-	 * 
+	 *
 	 * @param int id ID of cat to search for
 	 * @return Cat searched for if exists, null otherwise
 	 */
 
-	private Cat getCat(int id) {
-
-		// null check
+	private Cat getCat(int id) 
+	{
 		if (cats == null) {
-			return null;
+		return null;
 		}
 
-        for (Cat c : cats) {
-            if (c.getId() == id) {
-                return c;
-            }
-        }
-        System.out.println("Invalid cat ID.");
-        return null;
+		// Loop through every cat in the cat list
+		for (Cat c : cats) 
+		{
+		if (c.getId() == id) 
+		{
+		return c;
+		}
+		}
+		System.out.println("Invalid cat ID.");
+		return null;
 
 	}
 
 	/**
 	 * Add a cat to the list of cats.
-	 * 
+	 *
 	 * @param c the Cat to add
 	 */
 
@@ -132,7 +155,7 @@ public class RentACatImpl implements RentACat {
 
 	/**
 	 * Main method
-	 * 
+	 *
 	 * @param args - IGNORED, kept for compatibility
 	 */
 	public static void main(String[] args) {

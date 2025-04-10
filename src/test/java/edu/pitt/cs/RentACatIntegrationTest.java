@@ -1,18 +1,19 @@
 package edu.pitt.cs;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
+import static org.junit.Assert.*;
+
+import org.mockito.Mockito;
+import static org.mockito.Mockito.*;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import org.junit.After;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RentACatIntegrationTest {
@@ -42,25 +43,31 @@ public class RentACatIntegrationTest {
 		// Passing InstanceType.IMPL as the first parameter will create a real RentACat object using your RentACatImpl implementation.
 		// Passing InstanceType.MOCK as the first parameter will create a mock RentACat object using Mockito.
 		// Which type is the correct choice for this integration test?  I'll leave it up to you.  The answer is in the Unit Testing Part 2 lecture. :)
-        r = RentACat.createInstance(InstanceType.IMPL);
+		// TODO: Fill in
+		r = RentACat.createInstance(InstanceType.IMPL);
 
 		// 2. Create a Cat with ID 1 and name "Jennyanydots", assign to c1 using a call to Cat.createInstance(InstanceType, int, String).
 		// Passing InstanceType.IMPL as the first parameter will create a real cat using your CatImpl implementation.
 		// Passing InstanceType.MOCK as the first parameter will create a mock cat using Mockito.
 		// Which type is the correct choice for this integration test?  Again, I'll leave it up to you.
-        c1 = Cat.createInstance(InstanceType.IMPL, 1, "Jennyanydots");
+		// TODO: Fill in
+		c1 = Cat.createInstance(InstanceType.IMPL, 1, "Jennyanydots");
 
 		// 3. Create a Cat with ID 2 and name "Old Deuteronomy", assign to c2 using a call to Cat.createInstance(InstanceType, int, String).
-        c2 = Cat.createInstance(InstanceType.IMPL, 2, "Old Deuteronomy");
+		// TODO: Fill in
+		c2 = Cat.createInstance(InstanceType.IMPL, 2, "Old Deuteronomy");
 
 		// 4. Create a Cat with ID 3 and name "Mistoffelees", assign to c3 using a call to Cat.createInstance(InstanceType, int, String).
-        c3 = Cat.createInstance(InstanceType.IMPL, 3, "Mistoffelees");
-		
+		// TODO: Fill in
+		c3 = Cat.createInstance(InstanceType.IMPL, 3, "Mistoffelees");
+
 		// 5. Redirect system output from stdout to the "out" stream
 		// First, make a back up of System.out (which is the stdout to the console)
 		stdout = System.out;
-        out = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(out));
+		out = new ByteArrayOutputStream();
+		// Second, update System.out to the PrintStream created from "out"
+		// TODO: Fill in.  Refer to the textbook chapter 14.6 on Testing System Output.
+		System.setOut(new PrintStream(out));
 	}
 
 	@After
@@ -78,68 +85,78 @@ public class RentACatIntegrationTest {
 
 	/**
 	 * Test case for Cat getCat(int id).
-	 * 
+	 *
 	 * <pre>
 	 * Preconditions: r has no cats.
 	 * Execution steps: Call getCat(2).
 	 * Postconditions: Return value is null.
 	 *                 System output is "Invalid cat ID." + newline.
 	 * </pre>
-	 * 
+	 *
 	 * Hint: You will need to use Java reflection to invoke the private getCat(int)
-	 * method. efer to the Unit Testing Part 1 lecture and the textbook appendix 
+	 * method. efer to the Unit Testing Part 1 lecture and the textbook appendix
 	 * hapter on using reflection on how to do this.  Please use r.getClass() to get
 	 * the class object of r instead of hardcoding it as RentACatImpl.
 	 */
 	@Test
 	public void testGetCatNullNumCats0() {
-        String result = r.listCats();
-        assertEquals("Expected an empty string with no cats in system", "", result);	
+		// [x] TODO: Fill in
+
+		try {
+			Method method = r.getClass().getDeclaredMethod("getCat", int.class);
+			method.setAccessible(true);
+			Object returnValue = method.invoke(r, 2);
+			Cat returnCat = ((Cat) returnValue);
+			assertEquals(null, returnCat);
+			assertEquals("Invalid cat ID." + newline, out.toString());
+
+		} catch (NoSuchMethodException|IllegalAccessException|InvocationTargetException ex) {
+			// The method does not exist
+			fail();
+		}
 	}
 
 	/**
 	 * Test case for Cat getCat(int id).
-	 * 
+	 *
 	 * <pre>
 	 * Preconditions: c1, c2, and c3 are added to r using addCat(Cat c).
 	 * Execution steps: Call getCat(2).
 	 * Postconditions: Return value is not null.
 	 *                 Returned cat has an ID of 2.
 	 * </pre>
-	 * 
+	 *
 	 * Hint: You will need to use Java reflection to invoke the private getCat(int)
-	 * method. efer to the Unit Testing Part 1 lecture and the textbook appendix 
+	 * method. efer to the Unit Testing Part 1 lecture and the textbook appendix
 	 * hapter on using reflection on how to do this.  Please use r.getClass() to get
 	 * the class object of r instead of hardcoding it as RentACatImpl.
 	 */
 	@Test
-	public void testGetCatNumCats3() throws Exception
-	{
- 		r.addCat(c1);
-        r.addCat(c2);
-        r.addCat(c3);
+	public void testGetCatNumCats3() {
+		// [x] TODO: Fill in
 
-        // Reflectively get the private method
-        Method getCatMethod = r.getClass().getDeclaredMethod("getCat", int.class);
-        getCatMethod.setAccessible(true);
+		// PreConditions
+		r.addCat(c1);
+		r.addCat(c2);
+		r.addCat(c3);
 
-        // Clear any old output
-        out.reset();
-
-        // Invoke getCat(2)
-        Cat cat = (Cat) getCatMethod.invoke(r, 2);
-
-        // Check return value
-        assertNotNull("Expected a valid Cat object", cat);
-        assertEquals("Expected cat ID=2", 2, cat.getId());
-
-        // Check that nothing was printed
-        assertEquals("", out.toString());	
+		// Execution Steps
+		try {
+			Method method = r.getClass().getDeclaredMethod("getCat", int.class);
+			method.setAccessible(true);
+			Object returnValue = method.invoke(r, 2);
+			Cat returnCat = ((Cat) returnValue);
+			assertNotEquals(null, returnCat);
+			assertEquals(2, returnCat.getId());
+		} catch (NoSuchMethodException|IllegalAccessException|InvocationTargetException ex) {
+			// The method does not exist
+			fail();
+		}
 	}
 
 	/**
 	 * Test case for String listCats().
-	 * 
+	 *
 	 * <pre>
 	 * Preconditions: r has no cats.
 	 * Execution steps: Call listCats().
@@ -148,13 +165,14 @@ public class RentACatIntegrationTest {
 	 */
 	@Test
 	public void testListCatsNumCats0() {
-        out.reset();
-        String result = r.listCats();
-        assertEquals("Expected empty string if no cats exist", "", result);	}
+		// [x] TODO: Fill in
+
+		assertEquals("", r.listCats());
+	}
 
 	/**
 	 * Test case for String listCats().
-	 * 
+	 *
 	 * <pre>
 	 * Preconditions: c1, c2, and c3 are added to r using addCat(Cat c).
 	 * Execution steps: Call listCats().
@@ -163,24 +181,23 @@ public class RentACatIntegrationTest {
 	 * </pre>
 	 */
 	@Test
-    public void testListCatsNumCats3() {
-        r.addCat(c1);
-        r.addCat(c2);
-        r.addCat(c3);
+	public void testListCatsNumCats3() {
+		// [x] TODO: Fill in
 
-        out.reset();
-        String result = r.listCats();
+		// PreConditions
+		r.addCat(c1);
+		r.addCat(c2);
+		r.addCat(c3);
 
-        String expected = ""
-            + "ID 1. Jennyanydots" + newline
-            + "ID 2. Old Deuteronomy" + newline
-            + "ID 3. Mistoffelees" + newline;
-        assertEquals(expected, result);
+		// Execution Steps
+		String expected = "ID 1. Jennyanydots\nID 2. Old Deuteronomy\nID 3. Mistoffelees\n";
+		String listCats = r.listCats();
+		assertEquals(expected, listCats);
 	}
 
 	/**
 	 * Test case for boolean renameCat(int id, String name).
-	 * 
+	 *
 	 * <pre>
 	 * Preconditions: r has no cats.
 	 * Execution steps: Call renameCat(2, "Garfield").
@@ -191,15 +208,16 @@ public class RentACatIntegrationTest {
 	 */
 	@Test
 	public void testRenameFailureNumCats0() {
-		out.reset();
-        boolean result = r.renameCat(2, "Garfield");
-        assertFalse(result);
-        assertEquals("Old Deuteronomy", c2.getName());
+		// [x] TODO: Fill in
+
+		assertFalse(r.renameCat(2, "Garfield"));
+		assertNotEquals("Garfield", c2.getName());
+		assertEquals("Invalid cat ID." + newline, out.toString());
 	}
 
 	/**
 	 * Test case for boolean renameCat(int id, String name).
-	 * 
+	 *
 	 * <pre>
 	 * Preconditions: c1, c2, and c3 are added to r using addCat(Cat c).
 	 * Execution steps: Call renameCat(2, "Garfield").
@@ -209,21 +227,21 @@ public class RentACatIntegrationTest {
 	 */
 	@Test
 	public void testRenameNumCat3() {
-        r.addCat(c1);
-        r.addCat(c2);
-        r.addCat(c3);
+		// [x] TODO: Fill in
 
-        out.reset();
-        boolean result = r.renameCat(2, "Garfield");
-        assertTrue(result);
-        assertEquals("Garfield", c2.getName());
-        // Expecting no additional output on success.
-        assertEquals("", out.toString());	
+		// Preconditions
+		r.addCat(c1);
+		r.addCat(c2);
+		r.addCat(c3);
+
+		// Execution steps
+		assertTrue(r.renameCat(2, "Garfield"));
+		assertEquals("Garfield", c2.getName());
 	}
 
 	/**
 	 * Test case for boolean rentCat(int id).
-	 * 
+	 *
 	 * <pre>
 	 * Preconditions: c1, c2, and c3 are added to r using addCat(Cat c).
 	 * Execution steps: Call rentCat(2).
@@ -234,20 +252,25 @@ public class RentACatIntegrationTest {
 	 */
 	@Test
 	public void testRentCatNumCats3() {
+		// [x] TODO: Fill in
+
+		// Preconditions
 		r.addCat(c1);
-        r.addCat(c2);
-        r.addCat(c3);
+		r.addCat(c2);
+		r.addCat(c3);
 
-        out.reset();
-        boolean result = r.rentCat(2);
-        assertTrue(result);
+		// Execution steps
+		boolean status = r.rentCat(2);
 
-        assertTrue(c2.getRented());
+		// Postconditions
+		assertTrue(status);
+		assertTrue(c2.getRented());
+		assertEquals("Old Deuteronomy has been rented." + newline, out.toString());
 	}
 
 	/**
 	 * Test case for boolean rentCat(int id).
-	 * 
+	 *
 	 * <pre>
 	 * Preconditions: c1, c2, and c3 are added to r using addCat(Cat c).
 	 *                c2 is rented.
@@ -259,20 +282,26 @@ public class RentACatIntegrationTest {
 	 */
 	@Test
 	public void testRentCatFailureNumCats3() {
-		r.addCat(c1);
-        r.addCat(c2);
-        r.addCat(c3);
+		// [x] TODO: Fill in
 
-        r.rentCat(2);
-        out.reset();
-        boolean result = r.rentCat(2);
-        assertFalse(result);
-        assertTrue(c2.getRented());	
+		// Preconditions
+		r.addCat(c1);
+		r.addCat(c2);
+		r.addCat(c3);
+		c2.rentCat();
+
+		// Execution steps
+		boolean status = r.rentCat(2);
+
+		// Postconditions
+		assertFalse(status);
+		assertTrue(c2.getRented());
+		assertEquals("Sorry, Old Deuteronomy is not here!" + newline, out.toString());
 	}
 
 	/**
 	 * Test case for boolean returnCat(int id).
-	 * 
+	 *
 	 * <pre>
 	 * Preconditions: c1, c2, and c3 are added to r using addCat(Cat c).
 	 *                c2 is rented.
@@ -283,24 +312,27 @@ public class RentACatIntegrationTest {
 	 * </pre>
 	 */
 	@Test
-	public void testReturnCatNumCats3() 
-	{
-        r.addCat(c1);
-        r.addCat(c2);
-        r.addCat(c3);
+	public void testReturnCatNumCats3() {
+		// [x] TODO: Fill in
 
-        // Rent cat with ID 2 first.
-        r.rentCat(2);
-        // Clear output for the return operation.
-        out.reset();
-        boolean result = r.returnCat(2);
-        assertTrue(result);
-        assertFalse(c2.getRented());	
+		// Preconditions
+		r.addCat(c1);
+		r.addCat(c2);
+		r.addCat(c3);
+		c2.rentCat();
+
+		// Execution steps
+		boolean status = r.returnCat(2);
+
+		// Postconditions
+		assertTrue(status);
+		assertFalse(c2.getRented());
+		assertEquals("Welcome back, Old Deuteronomy!" + newline, out.toString());
 	}
 
 	/**
 	 * Test case for boolean returnCat(int id).
-	 * 
+	 *
 	 * <pre>
 	 * Preconditions: c1, c2, and c3 are added to r using addCat(Cat c).
 	 * Execution steps: Call returnCat(2).
@@ -311,17 +343,19 @@ public class RentACatIntegrationTest {
 	 */
 	@Test
 	public void testReturnFailureCatNumCats3() {
+		// TODO: Fill in
+
+		// Preconditions
 		r.addCat(c1);
-        r.addCat(c2);
-        r.addCat(c3);
+		r.addCat(c2);
+		r.addCat(c3);
 
-        // Ensure cat with ID 2 is not rented.
-        // (Do not rent it before calling returnCat)
-        out.reset();
-        boolean result = r.returnCat(2);
-        assertFalse(result);
-        // c2 remains not rented.
-        assertFalse(c2.getRented());	
+		// Execution steps
+		boolean status = r.returnCat(2);
+
+		// Postconditions
+		assertFalse(status);
+		assertFalse(c2.getRented());
+		assertEquals("Old Deuteronomy is already here!" + newline, out.toString());
 	}
-
 }
