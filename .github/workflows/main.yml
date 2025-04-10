@@ -1,4 +1,4 @@
-fname: Maven CI
+name: Maven CI
 
 on:
   workflow_dispatch:
@@ -30,7 +30,7 @@ jobs:
         run: mvn test
 
       - name: Upload jacoco results as artifact
-        uses: actions/upload-artifact@v4  # Updated to v4 to avoid deprecation
+        uses: actions/upload-artifact@v4
         with:
           name: Jacoco coverage results
           path: target/site/jacoco
@@ -62,6 +62,7 @@ jobs:
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
              -Dsonar.projectKey=CS1632-Spring-2025_supplementary-exercise-4-ci-cd-pipelines-jakebgoldstein \
              -Dsonar.organization=CS1632-Spring-2025
+
   update_dependence_graph:
     needs: [maven_test]
     runs-on: ubuntu-latest
