@@ -49,6 +49,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
     <maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
+    <sonar.projectKey>CS1632-Spring-2025_supplementary-exercise-4-ci-cd-pipelines-jakebgoldstein</sonar.projectKey>
+    <sonar.organization>CS1632-Spring-2025</sonar.organization>
   </properties>
 
   <dependencies>
