@@ -17,7 +17,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Full history needed for SonarCloud
+          fetch-depth: 0  # Required for SonarCloud analysis
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -30,7 +30,7 @@ jobs:
         run: mvn test
 
       - name: Upload jacoco results as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4  # Updated to v4 to avoid deprecation
         with:
           name: Jacoco coverage results
           path: target/site/jacoco
